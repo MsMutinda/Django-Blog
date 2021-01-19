@@ -14,8 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
+
+#needed urls from the myblog application are imported into this file
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # for all urls starting with admin/
+    path('', include('myblog.urls'))  # sets the default page 127.0.0.1 as our home page,
+    # which then looks to (/is redirected to) myblog.urls for further instructions
 ]
+
