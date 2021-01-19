@@ -1,0 +1,16 @@
+# Python
+*.pyc
+*~
+__pycache__
+
+# Env
+.env
+djangoenv/
+virtualenv/
+
+# Database
+db.sqlite3
+
+# Static folder at project root
+/static/
+
