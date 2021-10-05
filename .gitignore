@@ -5,8 +5,7 @@ __pycache__
 
 # Env
 .env
-djangoenv/
-virtualenv/
+blogenv/
 
 # Database
 db.sqlite3
