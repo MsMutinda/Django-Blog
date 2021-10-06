@@ -16,7 +16,7 @@
 </head>
 <body>
     <nav class="page-header">
-        <h2 class="float-left"><a href="/" class=""> Django Blog</a></h2>
+        <h2 class="float-left"><a href="/"> Django Blog</a></h2>
         <ul>
             <li> <a href=""> Home </a> </li>
             <li> <a href="profile"> Profile </a> </li>
@@ -25,14 +25,17 @@
         </ul>
     </nav>
 
-    <div class="content container">
+    <div class="content container-fluid">
         <div class="row">
-            <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
-            </div>
+                {% block content %}
+                {% endblock %}
+
         </div>
     </div>
+
+<footer>
+    <h5 class="text-center"> © 2021 Juliet Mutinda </h5>
+</footer>
 
 </body>
 </html>
