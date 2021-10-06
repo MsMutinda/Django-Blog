@@ -3,7 +3,8 @@ from . import views  # imports all views from the myblog application
 
 
 urlpatterns = [
-    path('', views.post_list, name='post_list'),  # assigns a view called post_list to the root URL
-    # anyone visiting the homepage will be taken here (views.post_list)
+    path('', views.homepage, name='home'),
+    path('profile', views.profile, name='profile'),
+    path('blogs', views.post_list, name='post_list'),
     path('post/<int:pk>/', views.post_detail, name='post_detail')
 ]

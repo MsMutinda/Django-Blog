@@ -4,7 +4,14 @@ from .models import Post  # the . in models means current directory/application
 from django.utils import timezone
 
 
-# Create your views here.
+def homepage(request):
+    return render(request, 'myblog/homepage.html')
+
+
+def profile(request):
+    return render(request, 'myblog/profile.html')
+
+
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now())
     return render(request, 'myblog/post_list.html', {'posts': posts})  # render function with a request parameter,
