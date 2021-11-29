@@ -2,8 +2,20 @@
 
 {% block content %}
 
-<main class="content">
+<main class="profile">
+    <h3> Bio Details </h3>
 
+
+    <h3> Blogs i have authored </h3>
+
+    <ul> {% for post in user_posts %}
+        <li>
+            <h4> {{ post.title }} </h4>
+            <small> Pubished on <strong> {{ post.created_date|date:"M j, Y" }} </strong> </small>
+            <p> {{ post.text }} </p>
+        </li>
+    {% endfor %}
+    </ul>
 </main>
 
 {% endblock %}

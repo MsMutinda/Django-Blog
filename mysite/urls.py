@@ -21,6 +21,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),  # for all urls starting with admin/
     path('', include('myblog.urls'))  # sets the default page 127.0.0.1 as our home page,
-    # which then looks to (/is redirected to) myblog.urls for further instructions
+    # which then looks to myblog.urls for further instructions
 ]
 

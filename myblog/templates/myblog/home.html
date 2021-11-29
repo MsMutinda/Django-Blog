@@ -35,14 +35,33 @@
         </ul>
     </nav>
 
+
+    <div class="container-fluid">
+        <h3> Blog of the week </h3>
+        {{ featured_post.title }}
+        {{ featured_post.text }}
+    </div>
+    <hr class="featured-hr" />
+
     <div class="container">
-        {% block content %}
-        {% endblock %}
+        <main class="home">
+            <h2 class="latest-header"> Latest blogs </h2>
+            <ul>
+                {% for blog in blogs %}
+                    <li>
+                        <h4> <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a> </h4>
+                        <small> Posted by <strong> {{ blog.author.first_name }} {{ blog.author.last_name }}</strong> on <strong> {{ blog.created_date|date:"M j, Y" }} </strong> </small>
+                        <p> {{ blog.text }} </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
     </div>
 
-<footer>
-    <h5 class="text-center"> © 2021 Juliet Mutinda </h5>
-</footer>
+
+    <footer>
+        <h6 class="text-center"> © 2021 Juliet Mutinda. All rights reserved. </h6>
+    </footer>
 
 </body>
 </html>

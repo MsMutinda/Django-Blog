@@ -3,10 +3,13 @@ from django.db import models
 from django.utils import timezone
 
 
+# self represents an instance of our class.
+# By using it ware able to access the class methods and attributes
+
 # Create your models here.
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)  # defines text that will hold a limited number of characters
+    title = models.CharField(max_length=200)
     text = models.TextField()  # for long texts without any character limit
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
@@ -16,7 +19,5 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return self.title
+        return self.title + ' - by ' + str(self.author)
 
-# self represents an instance of our class.
-# By using it ware able to access the class methods and attributes

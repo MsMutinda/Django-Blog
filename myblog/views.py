@@ -1,31 +1,31 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from .models import Post  # the . in models means current directory/application
-# this will import the Post model code from models.py
-from django.utils import timezone
-from django.http import HttpResponse
+import random
+from django.views.generic import ListView, DetailView
 
 
-def homepage(request):
-    return render(request, 'myblog/homepage.html')
+def home(request):
+    blogs = list(Post.objects.all())
+    featured_post = random.choice(blogs)
+    return render(request, 'myblog/home.html', {'blogs': blogs, 'featured_post': featured_post})
 
 
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'myblog/post_details.html'
+
+
+@login_required
 def profile(request):
-    return render(request, 'myblog/profile.html')
+    user_posts = Post.objects.filter(author=request.user)
+    return render(request, 'myblog/profile.html', {'user_posts': user_posts})
 
 
-def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now())
-    return render(request, 'myblog/post_list.html', {'posts': posts})  # render function with a request parameter,
-    # and link to the template file. {} will hold things that may need to be added for the template to use
-
-
-def view_post(request, post_id):
-    return HttpResponse("You're looking at post %s." % post_id)
-
-
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)  # get_object_or_404 will handle cases where a non-existent post pk
-    # is requested
-    return render(request, 'myblog/post_detail.html', {'post': post})
-
+@login_required
+def logout(request):
+    logout(request)
+    return render(redirect('%s?next=%s' % (settings.LOGIN_URL, request.path)))
 
