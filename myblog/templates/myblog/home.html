@@ -29,7 +29,8 @@
     <nav class="page-header">
         <a href="{% url 'home' %}" class="float-left"> Django Blog </a>
         <ul>
-            <li> <a href=""> Explore </a> </li>
+            <li> <a href="{% url 'home' %}"> Home </a> </li>
+            <li> <a href="{% url 'categories' %}"> Explore </a> </li>
             <li> <a href="{% url 'profile' %}"> Profile </a> </li>
             <li> <a href="{% url 'logout' %}"> Logout </a> </li>
         </ul>
@@ -37,9 +38,11 @@
 
 
     <div class="container-fluid">
-        <h3> Blog of the week </h3>
-        {{ featured_post.title }}
-        {{ featured_post.text }}
+        <div class="featured">
+            <h3> Blog of the week </h3>
+            {{ featured_post.title }}
+            {{ featured_post.text }}
+        </div>
     </div>
     <hr class="featured-hr" />
 
@@ -50,7 +53,8 @@
                 {% for blog in blogs %}
                     <li>
                         <h4> <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a> </h4>
-                        <small> Posted by <strong> {{ blog.author.first_name }} {{ blog.author.last_name }}</strong> on <strong> {{ blog.created_date|date:"M j, Y" }} </strong> </small>
+                        <small> Posted by <strong> {{ blog.author.first_name }} {{ blog.author.last_name }} </strong>
+                                on <strong> {{ blog.created_date|date:"M j, Y H:i A" }} </strong> </small>
                         <p> {{ blog.text }} </p>
                     </li>
                 {% endfor %}

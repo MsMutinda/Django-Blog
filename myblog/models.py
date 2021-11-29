@@ -7,7 +7,12 @@ from django.utils import timezone
 # By using it ware able to access the class methods and attributes
 
 # Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+
 class Post(models.Model):
+    category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()  # for long texts without any character limit
@@ -20,4 +25,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title + ' - by ' + str(self.author)
-

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Post  # the . in models means current directory/application
+from .models import Post, Category  # the . in models means current directory/application
 import random
 from django.views.generic import ListView, DetailView
 
@@ -16,6 +16,10 @@ def home(request):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'myblog/post_details.html'
+
+
+def get_category(request):
+    categories = Category.objects.all()
 
 
 @login_required
