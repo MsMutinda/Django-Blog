@@ -25,19 +25,39 @@
 </head>
 
 <body>
-    <nav class="page-header">
-        <a href="{% url 'home' %}" class="float-left"> Django Blog </a>
-        <ul>
-            <li> <a href="{% url 'home' %}"> Home </a> </li>
-            <li> <a href="{% url 'categories' %}"> Explore </a> </li>
-            <li> <a href="{% url 'profile' %}"> Profile </a> </li>
-            <li> <a href="{% url 'logout' %}"> Logout </a> </li>
-        </ul>
+    <nav class="fixed-top navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand float-left" href="#"> Django blog </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav float-right ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"> Home </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Explore
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for category in categories %}
+                                <li> <a class="dropdown-item" href="#"> {{ category }} </a> </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}"> Profile </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 
     <div class="container-fluid">
         <div class="featured">
-            <h4 class="featured-header"> Blog of the week </h4>
+            <h5 class="featured-header"> Blog of the week </h5>
             {{ featured_post.title }}
             {{ featured_post.text }}
         </div>
@@ -60,7 +80,7 @@
         </main>
     </div>
 
-    <footer>
+    <footer class="fixed-bottom">
         <h6 class="text-center"> © 2021 Juliet Mutinda. All rights reserved. </h6>
     </footer>
 

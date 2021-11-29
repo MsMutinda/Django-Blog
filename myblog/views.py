@@ -8,9 +8,10 @@ from django.views.generic import ListView, DetailView
 
 
 def home(request):
+    categories = Category.objects.all()
     blogs = list(Post.objects.all())
     featured_post = random.choice(blogs)
-    return render(request, 'myblog/home.html', {'blogs': blogs, 'featured_post': featured_post})
+    return render(request, 'myblog/home.html', {'categories': categories, 'blogs': blogs, 'featured_post': featured_post})
 
 
 class PostDetailView(DetailView):
@@ -20,6 +21,7 @@ class PostDetailView(DetailView):
 
 def get_category(request):
     categories = Category.objects.all()
+    return render(request, 'myblog/base.html', {'categories':categories} )
 
 
 @login_required
