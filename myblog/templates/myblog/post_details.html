@@ -9,8 +9,9 @@
     <main class="post_detail">
         <h3> {{ post.title }} </h3>
         <hr />
-
         <p> {{ post.text }} </p>
+        <button class="btn btn-secondary"> <a href="{% url 'edit_post' post.pk %}"> Edit </a> </button>
+        <button class="btn btn-danger"> <a href="{% url 'delete_post' post.pk %}"> Delete </a> </button>
     </main>
 
 {% endblock %}

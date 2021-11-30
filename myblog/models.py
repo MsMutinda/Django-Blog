@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -15,7 +16,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()  # for long texts without any character limit
@@ -28,3 +29,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title + ' - by ' + str(self.author)
+
+    def get_absolute_url(self):
+        # return reverse('post_detail', args=(str(self.id)))
+        return reverse('home')

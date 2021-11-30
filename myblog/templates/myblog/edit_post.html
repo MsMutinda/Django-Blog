@@ -1,0 +1,20 @@
+{% extends 'myblog/base.html' %}
+
+{% block title %}
+    Edit blog
+{% endblock %}
+
+{% block content %}
+
+    <main class="add_post">
+        <div class="form-group shadow">
+            <h3> Edit blog </h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-dark"> Save changes </button>
+            </form>
+        </div>
+    </main>
+
+{% endblock %}

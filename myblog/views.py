@@ -2,16 +2,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.urls import reverse_lazy
+
 from .models import Post, Category  # the . in models means current directory/application
+from .forms import PostForm, EditForm
 import random
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 def home(request):
     categories = Category.objects.all()
-    blogs = list(Post.objects.all())
+    blogs = list(Post.objects.order_by('-created_date')[:4])
     featured_post = random.choice(blogs)
-    return render(request, 'myblog/home.html', {'categories': categories, 'blogs': blogs, 'featured_post': featured_post})
+    return render(request, 'myblog/home.html',
+                  {'categories': categories, 'blogs': blogs, 'featured_post': featured_post})
 
 
 class PostDetailView(DetailView):
@@ -19,9 +23,23 @@ class PostDetailView(DetailView):
     template_name = 'myblog/post_details.html'
 
 
-def get_category(request):
-    categories = Category.objects.all()
-    return render(request, 'myblog/base.html', {'categories':categories} )
+class AddPostView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'myblog/add_post.html'
+    # fields = '__all__'
+
+
+class EditPostView(UpdateView):
+    model = Post
+    form_class = EditForm
+    template_name = 'myblog/edit_post.html'
+
+
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = 'myblog/delete_post.html'
+    success_url = reverse_lazy('home')
 
 
 @login_required

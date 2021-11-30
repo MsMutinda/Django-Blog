@@ -33,6 +33,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}"> Home </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_post' %}"> Contribute an article </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +62,7 @@
         <div class="featured">
             <h5 class="featured-header"> Blog of the week: <span> {{ featured_post.title }} </span> </h5>
             <p> {{ featured_post.text|slice:"0:872"|add:" ...."}} </p>
-            <p class="btn btn-sm"> Continue reading </p>
+            <p class="btn btn-sm p-0"> <a href="{% url 'post_detail' featured_post.pk %}"> Continue reading </a> </p>
         </div>
     </div>
     <hr class="featured-hr" />
@@ -82,7 +85,7 @@
     </div>
 
     <footer class="fixed-bottom">
-        <h6 class="text-center"> © 2021, Juliet Mutinda. All rights reserved. </h6>
+        <h6 class="text-center"> Copyright © 2021 Juliet Mutinda. All rights reserved. </h6>
     </footer>
 
 
