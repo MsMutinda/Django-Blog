@@ -57,9 +57,9 @@
 
     <div class="container-fluid">
         <div class="featured">
-            <h5 class="featured-header"> Blog of the week </h5>
-            {{ featured_post.title }}
-            {{ featured_post.text }}
+            <h5 class="featured-header"> Blog of the week: <span> {{ featured_post.title }} </span> </h5>
+            <p> {{ featured_post.text|slice:"0:872"|add:" ...."}} </p>
+            <p class="btn btn-sm"> Continue reading </p>
         </div>
     </div>
     <hr class="featured-hr" />
@@ -71,9 +71,10 @@
                 {% for blog in blogs %}
                     <li>
                         <h5> <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a> </h5>
-                        <small> Posted by <strong> {{ blog.author.first_name }} {{ blog.author.last_name }} </strong>
-                                on <strong> {{ blog.created_date|date:"M j, Y H:i A" }} </strong> </small>
-                        <p> {{ blog.text }} </p>
+                        <small> Posted by <span> {{ blog.author.first_name }} {{ blog.author.last_name }} </span>
+                                on <span> {{ blog.created_date|date:"M j, Y H:i A" }} </span> </small>
+                        <p> {{ blog.text|slice:"0:642"|add:" ...." }} </p>
+                        <p class="continue"> <a href=""> Read blog </a> </p>
                     </li> <br />
                 {% endfor %}
             </ul>
@@ -81,7 +82,7 @@
     </div>
 
     <footer class="fixed-bottom">
-        <h6 class="text-center"> © 2021 Juliet Mutinda. All rights reserved. </h6>
+        <h6 class="text-center"> © 2021, Juliet Mutinda. All rights reserved. </h6>
     </footer>
 
 
