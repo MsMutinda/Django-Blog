@@ -26,8 +26,9 @@ def get_category(request):
 
 @login_required
 def profile(request):
+    user = request.user
     user_posts = Post.objects.filter(author=request.user)
-    return render(request, 'myblog/profile.html', {'user_posts': user_posts})
+    return render(request, 'myblog/profile.html', {'user': user, 'user_posts': user_posts})
 
 
 @login_required
