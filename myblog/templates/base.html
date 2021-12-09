@@ -45,7 +45,8 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% blog_categories request %}
                             {% for category in categories %}
-                                <li> <a class="dropdown-item" href="#"> {{ category }} </a> </li>
+<!--                                <li> <a class="dropdown-item" href="{% url 'category_filter' category|slugify %}"> {{ category }} </a> </li>-->
+                                <li> <a class="dropdown-item" href="{% url 'category_filter' category.name %}"> {{ category }} </a> </li>
                             {% endfor %}
                         </ul>
                     </li>

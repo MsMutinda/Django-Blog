@@ -10,12 +10,12 @@ class HomeView(ListView):
     model = Post
     template_name = 'home.html'
     categories = Category.objects.all()
-    # blogs = list(Post.objects.order_by('-created_date')[:4])
+    blogs = Post.objects.order_by('-created_date')[:4]
     featured_post = random.choice(Post.objects.all())
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        context.update({'categories': self.categories, 'featured_post': self.featured_post})
+        context.update({'categories': self.categories, 'blogs': self.blogs, 'featured_post': self.featured_post})
         return context
 
 
@@ -28,7 +28,6 @@ class AddPostView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'add_post.html'
-    # fields = '__all__'
 
     # override form_valid() to add the blog author
     def form_valid(self, form):
@@ -57,16 +56,8 @@ class AddCategoryView(CreateView):
 
 def category_filter(request, name):
     filtered_blogs = Post.objects.filter(category=name)
+    # filtered_blogs = Post.objects.filter(category=name.replace('-', ' '))
     return render(request, 'category.html', {'name': name, 'filtered_blogs': filtered_blogs})
-
-# class CategoryListView(ListView):
-#     model = Post
-#     template_name = 'category.html'
-#
-#     def get_queryset(self):
-#         # category = get_object_or_404(Category, id=self.kwargs.get('category__id'))
-#         # return Post.objects.filter(category_name=category)
-#         return Post.objects.filter(category=self.kwargs.get('pk'))
 
 
 def profile(request):

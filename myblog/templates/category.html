@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <main class="category_view">
-        <h2 class="category-header"> {{ name }} blogs </h2>
-        <ul>
-            {% for blog in filtered_blogs %}
-                <li>
-                    <h5>
-                        <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a>
-                    </h5>
-<!--                        <p class="btn btn-sm"> {{ blog.category }} </p>-->
-                    <small> Posted by <span> {{ blog.author.first_name }} {{ blog.author.last_name }} </span>
-                            on <span> {{ blog.created_date|date:"M j, Y H:i A" }} </span>
-                    </small>
-                    {{ blog.text|slice:"0:642"|add:" ...."|safe }} <br>
-                    <p class="continue"> <a href="{% url 'post_detail' blog.pk %}"> Read blog </a> </p>
-                </li> <br />
-            {% endfor %}
-        </ul>
-    </main>
+        <main class="category_view">
+            <h2 class="category-header"> Blogs on:  {{ name }} </h2>
+            <ul>
+                {% if filtered_blogs %}
+                    {% for blog in filtered_blogs %}
+                        <li>
+                            <h5>
+                                <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a>
+                            </h5>
+        <!--                        <p class="btn btn-sm"> {{ blog.category }} </p>-->
+                            <small> Posted by <span> {{ blog.author.first_name }} {{ blog.author.last_name }} </span>
+                                    on <span> {{ blog.created_date|date:"M j, Y H:i A" }} </span>
+                            </small>
+                            {{ blog.text|slice:"0:642"|add:" ...."|safe }} <br>
+                        </li> <br />
+                    {% endfor %}
+                {% else %}
+                    <h4 style="color: #205067; ">No blogs here yet. </h4>
+                {% endif %}
+            </ul>
+        </main>
 
 {% endblock %}

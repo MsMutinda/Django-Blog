@@ -24,7 +24,7 @@
                                 <small> Published on {{ post.created_date|date:"M j, Y" }} </small>
                             </div>
                             <div class="card-body">
-                                <div class='card-text'> <p> {{ post.text|slice:"0:445"|add:" ..." }} </p> </div>
+                                <div class='card-text'> <p> {{ post.text|slice:"0:445"|add:" ..."|safe }} </p> </div>
                                 <p class="btn btn-sm"> <a href="" style="color: #121212;"> Read blog </a> </p>
                             </div>
                         </div>
