@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
 
@@ -33,26 +33,40 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}"> Home </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'add_post' %}"> Contribute an article </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         Explore
                         </a>
+<!--                        {% load basetemp_extras %}-->
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+<!--                            {% blog_categories request %}-->
                             {% for category in categories %}
-                                <li> <a class="dropdown-item" href="#"> {{ category }} </a> </li>
+                                <li> <a class="dropdown-item" href="{% url 'category_filter' category.name %}"> {{ category }} </a> </li>
                             {% endfor %}
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}"> Profile </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_post' %}"> Contribute an article </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_category' %}"> Add category </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}"> Profile </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}"> Register </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}"> Login </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -61,8 +75,8 @@
     <div class="container-fluid">
         <div class="featured">
             <h5 class="featured-header"> Blog of the week: <span> {{ featured_post.title }} </span> </h5>
-            <p> {{ featured_post.text|slice:"0:872"|add:" ...."}} </p>
-            <p class="btn btn-sm p-0"> <a href="{% url 'post_detail' featured_post.pk %}"> Continue reading </a> </p>
+            {{ featured_post.text|slice:"0:688"|add:" ...."|safe }}<br>
+            <p class="btn btn-sm p-0"> <a href=""> Continue reading </a> </p>
         </div>
     </div>
     <hr class="featured-hr" />
@@ -71,13 +85,18 @@
         <main class="home">
             <h2 class="latest-header"> Latest blogs </h2>
             <ul>
-                {% for blog in blogs %}
+                {% for blog in object_list %}
                     <li>
-                        <h5> <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a> </h5>
+                        <h5>
+                            <a href="{% url 'post_detail' blog.pk %}"> {{ blog.title }} </a>
+                            <p class="btn btn-sm"> {{ blog.category }} </p>
+                        </h5>
+<!--                        <p class="btn btn-sm"> {{ blog.category }} </p>-->
                         <small> Posted by <span> {{ blog.author.first_name }} {{ blog.author.last_name }} </span>
-                                on <span> {{ blog.created_date|date:"M j, Y H:i A" }} </span> </small>
-                        <p> {{ blog.text|slice:"0:642"|add:" ...." }} </p>
-                        <p class="continue"> <a href=""> Read blog </a> </p>
+                                on <span> {{ blog.created_date|date:"M j, Y H:i A" }} </span>
+                        </small>
+                        {{ blog.text|slice:"0:642"|add:" ...."|safe }} <br>
+                        <p class="continue"> <a href="{% url 'post_detail' blog.pk %}"> Read blog </a> </p>
                     </li> <br />
                 {% endfor %}
             </ul>

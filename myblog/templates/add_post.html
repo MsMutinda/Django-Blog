@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add a new blog
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <main class="add_blog">
+            <div class="form-group shadow">
+                <h3> Create a new blog </h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-dark"> Save blog </button>
+                </form>
+            </div>
+        </main>
+    {% else %}
+        <main class="add_blog_redirect">
+            <h5> Please <a href="{% url 'login' %}"> login </a> first to view this page </h5>
+            <h6> If you do not have an account, register <a href="{% url 'register' %}"> here </a>.</h6>
+        </main>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit category
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <main class="edit_category">
+            <div class="form-group shadow">
+                <h3> Edit category </h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-dark"> Save changes </button>
+                </form>
+            </div>
+        </main>
+    {% else %}
+        <main class="edit_category_redirect">
+            <h5> Please <a href="{% url 'login' %}"> login </a> first to view this page </h5>
+            <h6> If you do not have an account, register <a href="{% url 'register' %}"> here </a>.</h6>
+        </main>
+    {% endif %}
+
+
+{% endblock %}

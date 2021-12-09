@@ -1,56 +1,75 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from django.urls import reverse_lazy
-
 from .models import Post, Category  # the . in models means current directory/application
 from .forms import PostForm, EditForm
 import random
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
-def home(request):
+class HomeView(ListView):
+    model = Post
+    template_name = 'home.html'
     categories = Category.objects.all()
-    blogs = list(Post.objects.order_by('-created_date')[:4])
-    featured_post = random.choice(blogs)
-    return render(request, 'myblog/home.html',
-                  {'categories': categories, 'blogs': blogs, 'featured_post': featured_post})
+    # blogs = list(Post.objects.order_by('-created_date')[:4])
+    featured_post = random.choice(Post.objects.all())
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context.update({'categories': self.categories, 'featured_post': self.featured_post})
+        return context
 
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'myblog/post_details.html'
+    template_name = 'post_details.html'
 
 
 class AddPostView(CreateView):
     model = Post
     form_class = PostForm
-    template_name = 'myblog/add_post.html'
+    template_name = 'add_post.html'
     # fields = '__all__'
+
+    # override form_valid() to add the blog author
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class EditPostView(UpdateView):
     model = Post
     form_class = EditForm
-    template_name = 'myblog/edit_post.html'
+    template_name = 'edit_post.html'
 
 
 class DeletePostView(DeleteView):
     model = Post
-    template_name = 'myblog/delete_post.html'
+    template_name = 'delete_post.html'
     success_url = reverse_lazy('home')
 
 
-@login_required
+class AddCategoryView(CreateView):
+    model = Category
+    # form_class = PostForm
+    template_name = 'add_category.html'
+    fields = '__all__'
+
+
+def category_filter(request, name):
+    filtered_blogs = Post.objects.filter(category=name)
+    return render(request, 'category.html', {'name': name, 'filtered_blogs': filtered_blogs})
+
+# class CategoryListView(ListView):
+#     model = Post
+#     template_name = 'category.html'
+#
+#     def get_queryset(self):
+#         # category = get_object_or_404(Category, id=self.kwargs.get('category__id'))
+#         # return Post.objects.filter(category_name=category)
+#         return Post.objects.filter(category=self.kwargs.get('pk'))
+
+
 def profile(request):
     user = request.user
     user_posts = Post.objects.filter(author=request.user)
-    return render(request, 'myblog/profile.html', {'user': user, 'user_posts': user_posts})
-
-
-@login_required
-def logout(request):
-    logout(request)
-    return render(redirect('%s?next=%s' % (settings.LOGIN_URL, request.path)))
-
+    return render(request, 'profile.html', {'user': user, 'user_posts': user_posts})
