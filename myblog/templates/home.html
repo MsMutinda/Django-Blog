@@ -68,12 +68,16 @@
         </div>
     </nav>
 
+    <div class="notification-bar">
+        <a class="nav-link" href="{% url 'add_post' %}"> Contribute an article </a>
+    </div>
+
     <div class="container-fluid">
         <div class="featured">
             <h5 class="featured-header"> Blog of the week: <span> {{ featured_post.title }} </span> </h5>
-            {{ featured_post.text|slice:"0:688"|add:" ...."|safe }}<br>
-            <p class="btn btn-sm p-0"> <a href=""> Continue reading </a> </p>
+            {{ featured_post.text|slice:"0:688"|add:" ...."|safe }}
         </div>
+        <p class="btn btn-sm"> <a href="{% url 'post_detail' featured_post.pk %}"> Continue reading </a> </p>
     </div>
     <hr class="featured-hr" />
 

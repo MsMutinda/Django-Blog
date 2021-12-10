@@ -7,6 +7,7 @@
 {% block content %}
 
     <main class="post_detail">
+        <input type=button value="Back" onClick="javascript:history.go(-1);">
         <h3> {{ post.title }} </h3>
         <hr />
         {{ post.text|safe }} <br>

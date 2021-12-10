@@ -2,6 +2,7 @@
 
 {% block content %}
         <main class="category_view">
+            <input type=button value="Back" onClick="javascript:history.go(-1);">
             <h2 class="category-header"> Blogs on:  {{ name }} </h2>
             <ul>
                 {% if filtered_blogs %}

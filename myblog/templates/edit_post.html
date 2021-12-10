@@ -7,16 +7,28 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        <main class="edit_blog">
-            <div class="form-group shadow">
-                <h3> Edit blog </h3>
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button class="btn btn-dark"> Save changes </button>
-                </form>
-            </div>
-        </main>
+        {% if user == post.author %}
+            <main class="edit_blog">
+                <div class="form-group shadow">
+                    <h3> Edit blog </h3>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-dark"> Save changes </button>
+                    </form>
+                </div>
+            </main>
+        {% else %}
+            <main class="edit_blog">
+                <div class="form-group shadow">
+                    <h4 class="text-warning">
+                        <i class="fa fa-warning" style="margin-right: 5px;"></i>
+                        You are not authorized to edit this blog
+                    </h4>
+                    <h6> (and you know it...) </h6>
+                </div>
+            </main>
+        {% endif %}
     {% else %}
         <main class="edit_blog_redirect">
             <h5> Please <a href="{% url 'login' %}"> login </a> first to view this page </h5>
