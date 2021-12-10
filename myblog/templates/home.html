@@ -36,23 +36,18 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        Explore
+                        Categories
                         </a>
-<!--                        {% load basetemp_extras %}-->
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-<!--                            {% blog_categories request %}-->
-                            {% for category in categories %}
-<!--                                <li> <a class="dropdown-item" href="{% url 'category_filter' category.name|slugify %}"> {{ category }} </a> </li>-->
-                                <li> <a class="dropdown-item" href="{% url 'category_filter' category.name %}"> {{ category }} </a> </li>
-                            {% endfor %}
+                            <li> <a class="dropdown-item" href="{% url 'categories_list' %}"> Explore </a> </li>
+                            {% if user.is_authenticated %}
+                                <li> <a class="dropdown-item" href="{% url 'add_category' %}"> Add category </a> </li>
+                            {% endif %}
                         </ul>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'add_post' %}"> Contribute an article </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'add_category' %}"> Add category </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'profile' %}"> Profile </a>

@@ -16,18 +16,13 @@
                 <hr />
                 <h4> Blogs i have authored </h4>
                 <hr />
-                <ul> {% for post in user_posts %}
+                <ul>
+                    {% for post in user_posts %}
                     <li>
-                        <div class='card'>
-                            <h5 class="card-title"> <a href=""> {{ post.title }} </a> </h5>
-                            <div class="card-body">
-                                <small> Published on {{ post.created_date|date:"M j, Y" }} </small>
-                            </div>
-                            <div class="card-body">
-                                <div class='card-text'> <p> {{ post.text|slice:"0:445"|add:" ..."|safe }} </p> </div>
-                                <p class="btn btn-sm"> <a href="" style="color: #121212;"> Read blog </a> </p>
-                            </div>
-                        </div>
+                        <h5> <a href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a> </h5>
+                        <small> Published on {{ post.created_date|date:"M j, Y" }} </small> <br>
+                        {{ post.text|slice:"0:400"|add:" ..."|safe }}
+                        <p class="btn btn-sm"> <a href="{% url 'post_detail' post.pk %}"> Read blog </a> </p>
                     </li>
                     {% endfor %}
                 </ul>

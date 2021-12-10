@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from .models import Post, Category  # the . in models means current directory/application
-from .forms import PostForm, EditForm
+from .forms import PostForm, EditForm, EditCategoryForm
 import random
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -54,13 +54,30 @@ class AddCategoryView(CreateView):
     fields = '__all__'
 
 
+class CategoriesView(ListView):
+    model = Category
+    template_name = 'categories_list.html'
+
+
 def category_filter(request, name):
     filtered_blogs = Post.objects.filter(category=name)
     # filtered_blogs = Post.objects.filter(category=name.replace('-', ' '))
     return render(request, 'category.html', {'name': name, 'filtered_blogs': filtered_blogs})
 
 
+class CategoryEdit(UpdateView):
+    model = Category
+    form_class = EditCategoryForm
+    template_name = 'category_edit.html'
+    success_url = reverse_lazy('categories_list')
+
+
+class CategoryDelete(DeleteView):
+    model = Category
+    template_name = 'category_delete.html'
+    success_url = reverse_lazy('categories_list')
+
+
 def profile(request):
-    user = request.user
     user_posts = Post.objects.filter(author=request.user)
-    return render(request, 'profile.html', {'user': user, 'user_posts': user_posts})
+    return render(request, 'profile.html', {'user_posts': user_posts})
