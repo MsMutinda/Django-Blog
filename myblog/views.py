@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from .models import Post, Category  # the . in models means current directory/application
 from .forms import PostForm, EditForm, EditCategoryForm
 import random
@@ -19,11 +20,6 @@ class HomeView(ListView):
         return context
 
 
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'post_details.html'
-
-
 class AddPostView(CreateView):
     model = Post
     form_class = PostForm
@@ -33,6 +29,36 @@ class AddPostView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_details.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+        current_post = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = current_post.total_likes()
+        liked = False
+        if current_post.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        context['total_likes'] = total_likes
+        context['liked'] = liked
+        return context
+
+
+def LikePost(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
 
 
 class EditPostView(UpdateView):

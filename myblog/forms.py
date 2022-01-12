@@ -24,7 +24,7 @@ class EditForm(forms.ModelForm):
         model = Post
         fields = ('category', 'title', 'text')
         widgets = {
-            'category': forms.Select(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}, choices=categories),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'text': SummernoteWidget(attrs={'summernote': {'width': '100%'}})
             # 'text': SummernoteTextField()

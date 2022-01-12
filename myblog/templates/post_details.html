@@ -7,11 +7,23 @@
 {% block content %}
 
     <main class="post_detail">
-        <input type=button value="Back" onClick="javascript:history.go(-1);">
+        <input type=button class="mb-4" value="Back" onClick="javascript:history.go(-1);">
         <h3> {{ post.title }} </h3>
         <hr />
         {{ post.text|safe }} <br>
         {% if user.is_authenticated %}
+            <form action="{% url 'like_post' post.pk %}" method="post">
+                {% csrf_token %}
+                {% if liked %}
+                    <button type="submit" class="btn btn-primary mb-4" name="post_id" value="{{ post.id }}">
+                        Unlike - {{ total_likes }} like(s)
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary mb-4" name="post_id" value="{{ post.id }}">
+                        Like - {{ total_likes }} like(s)
+                    </button>
+                {% endif %}
+            </form>
             <button class="btn btn-secondary"> <a href="{% url 'edit_post' post.pk %}"> Edit </a> </button>
             <button class="btn btn-danger"> <a href="{% url 'delete_post' post.pk %}"> Delete </a> </button>
         {% endif %}
